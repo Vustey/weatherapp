@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/models/weather.dart';
-import 'package:weather_app/page/widgets/home_detail_weather.dart';
-import 'package:weather_app/page/widgets/home_location.dart';
-import 'package:weather_app/page/widgets/home_temperature.dart';
-import 'package:weather_app/page/widgets/home_weather_icon.dart';
+import 'package:weather_app/page/home/widgets/home_detail_weather.dart';
+import 'package:weather_app/page/home/widgets/home_location.dart';
+import 'package:weather_app/page/home/widgets/home_temperature.dart';
+import 'package:weather_app/page/home/widgets/home_weather_icon.dart';
 import 'package:weather_app/providers/weather_provider.dart';
 
 class HomePage extends StatefulWidget {
