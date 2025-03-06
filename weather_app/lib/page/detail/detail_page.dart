@@ -18,15 +18,38 @@ class DetailPage extends StatelessWidget {
         ),
       ),
       child: FutureBuilder(
-        future: context.read<WeatherProvider>().getWeatherDetail(),
+        future: Future.wait([
+          context.read<WeatherProvider>().getWeatherDetail(),
+          context.read<WeatherProvider>().getWeatherCurrent(),
+        ]),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           }
-          if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                'Error loading weather data',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            );
           }
-          List<WeatherDetail> listData = snapshot.data as List<WeatherDetail>;
+          if (!snapshot.hasData) {
+            return Center(
+              child: Text(
+                'No weather data available',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            );
+          }
+
+          // snapshot.data là một List chứa kết quả từ cả hai Future
+          List<WeatherDetail> listData =
+              snapshot.data![0] as List<WeatherDetail>;
+          WeatherData currentWeather =
+              snapshot.data![1]
+                  as WeatherData; // Giả sử getWeatherCurrent() trả về WeatherData
+
           return Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
@@ -36,7 +59,8 @@ class DetailPage extends StatelessWidget {
                   Icon(Icons.near_me, color: Colors.white),
                   SizedBox(width: 15),
                   Text(
-                    "HO CHI MINH City",
+                    currentWeather.name
+                        .toUpperCase(), // Lấy tên từ `WeatherData`
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ],
@@ -46,9 +70,7 @@ class DetailPage extends StatelessWidget {
                 SizedBox(width: 15),
               ],
             ),
-            body: DetailBody(
-              listData: listData,
-            ),
+            body: DetailBody(listData: listData),
           );
         },
       ),

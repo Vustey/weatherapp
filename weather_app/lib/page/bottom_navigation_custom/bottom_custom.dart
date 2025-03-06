@@ -30,7 +30,7 @@ class _BottomNavigationCustomState extends State<BottomNavigationCustom> {
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white54,
-        backgroundColor: Colors.white30,
+        backgroundColor: Colors.white24,
         elevation: 0,
         items: listItem,
         onTap: (index) {

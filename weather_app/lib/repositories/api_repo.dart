@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:weather_app/apps/utils/const.dart';
 import 'package:weather_app/models/weather.dart';
 
 class ApiRepo {
-  static Future<WeatherData> callApiWeather() async {
+  static Future<WeatherData> callApiWeather(Position? position) async {
     try {
       final dio = Dio();
       final res = await dio.get(
-        'https://api.openweathermap.org/data/2.5/weather?lat=16,01552&lon=108.212863&appid=${ApiKey.apiKey}&units=metric&lang=vi',
+        'https://api.openweathermap.org/data/2.5/weather?lat=${position?.latitude}&lon=${position?.longitude}&appid=${ApiKey.apiKey}&units=metric&lang=vi',
       );
 
       final data = res.data;
@@ -19,7 +20,7 @@ class ApiRepo {
     }
   }
 
-  static Future<List<WeatherDetail>> callApiWeatherDetail() async {
+  static Future<List<WeatherDetail>> callApiWeatherDetail(Position? position) async {
     try {
       final dio = Dio();
       final res = await dio.get(
